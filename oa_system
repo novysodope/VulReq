@@ -17,7 +17,7 @@ Code：
 Rows:27       
 
 Harm：       
-Need a regular account
+The attacker only needs an ordinary user to trigger the vulnerability and use the SQL injection vulnerability to obtain database information.
 
 Conditions for Execution：      
 Need a regular account 
